@@ -1,11 +1,12 @@
-#### Estrutura básica Flask
+# Estrutura básica Flask
 
 
-## Configurações
+## Configurações ⚙️
 * arquivo .env
 
+<br>
 
-## No Windows
+## No Windows 🪟
 1 - Instalar todas as dependências
 ```bash
 python -m venv venv
@@ -21,7 +22,7 @@ python run.py
 
 <br>
 
-## No Linux
+## No Linux 🐧
 1 - Instalar todas as dependências
 ```bash
 python -m venv venv
@@ -33,4 +34,11 @@ pip install -r requirements.txt
 ```bash
 source venv/bin/activate
 python run.py
+```
+
+<br>
+
+## Executar modo dev 🧪
+```bash
+python -m flask --app flaskr run
 ```
