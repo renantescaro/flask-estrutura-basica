@@ -18,6 +18,6 @@ class Config:
                 f.write(f'{hash.upper()}={valor}\n')
 
     @staticmethod
-    def get(hash: str):
+    def get(hash: str) -> str:
         load_dotenv()
-        return os.getenv(hash.upper())
+        return os.getenv(hash.upper(), '')

@@ -1,6 +1,6 @@
 from waitress import serve
-from flaskr import create_app
-from flaskr.utils.config import Config
+from main import create_app
+from main.utils.config import Config
 
 
 app = create_app()

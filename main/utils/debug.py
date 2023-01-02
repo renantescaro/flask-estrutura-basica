@@ -1,4 +1,4 @@
-from flaskr.utils.converter import Converter
+from main.utils.converter import Converter
 
 class Debug:
     def __init__(self, texto:str) -> None:

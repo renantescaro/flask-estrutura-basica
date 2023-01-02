@@ -10,7 +10,7 @@ class InicialCtrl:
     @bp.route('/', methods=['GET'])
     def inicial_template():
         return render_template(
-            'inicial.html',
+            template_name_or_list='inicial.html',
             titulo='inicial'
         )
 
