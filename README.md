@@ -40,5 +40,5 @@ python run.py
 
 ## Executar modo dev 🧪
 ```bash
-python -m flask --app flaskr run
+python -m flask --app main --debug run
 ```
