@@ -1,7 +1,7 @@
-from .inicial_ctrl import bp as inicial_bp
-from .pessoa_ctrl import bp as pessoa_bp
+from .index_ctrl import bp as index_bp
+from .person_ctrl import bp as person_bp
 
 blueprints_ctrl = [
-    inicial_bp,
-    pessoa_bp,
+    index_bp,
+    person_bp,
 ]

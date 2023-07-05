@@ -1,11 +1,12 @@
 from waitress import serve
 from main import create_app
-from main.utils.config import Config
+from main.utils.enums.dot_env import DotEnvEnum
+from main.utils.settings import Settings
 
 
 app = create_app()
 serve(
     app,
-    host=Config.get('IP_APLICACAO'),
-    port=Config.get('PORTA_APLICACAO')
+    host=Settings.get(DotEnvEnum.IP_APPLICATION.value),
+    port=Settings.get(DotEnvEnum.PORT_APPLICATION.value),
 )

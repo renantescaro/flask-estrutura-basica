@@ -18,11 +18,11 @@ def create_app(test_config=None):
         JSONIFY_PRETTYPRINT_REGULAR=False,
     )
 
-    # adicionar rotas
+    # add routes
     for bp in blueprints_ctrl:
         app.register_blueprint(bp)
 
-    # cria banco de dados
+    # create database
     with app.app_context():
         SQLModel.metadata.create_all(engine)
 

@@ -3,6 +3,6 @@ from datetime import datetime as dt
 
 class Converter:
     @staticmethod
-    def data_atual_string() -> str:
-        data_hoje = dt.now()
-        return data_hoje.strftime("%d/%m/%Y %H:%M:%S")
+    def current_date_time() -> str:
+        now = dt.now()
+        return now.strftime("%d/%m/%Y %H:%M:%S")
