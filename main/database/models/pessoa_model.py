@@ -5,9 +5,10 @@ from sqlmodel import Field, SQLModel
 
 
 class GeneroEnum(Enum):
-    MASCULINO='masculino'
-    FEMININO='feminino'
-    OUTRO='outro'
+    MASCULINO = "masculino"
+    FEMININO = "feminino"
+    OUTRO = "outro"
+
 
 class Pessoa(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
