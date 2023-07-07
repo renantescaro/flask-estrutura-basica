@@ -17,3 +17,4 @@ class Person(SQLModel, table=True):
     weight: Optional[float] = None
     gender: Optional[GenderEnum] = None
     birth_date: Optional[date]
+   

@@ -3,6 +3,7 @@ from sqlmodel import SQLModel, Session, create_engine, select
 from main.utils.enums.dot_env import DotEnvEnum
 from main.utils.settings import Settings
 from .person_model import Person
+from .person_addrees_model import PersonAddrees
 
 engine = create_engine(
     url=Settings.get(
