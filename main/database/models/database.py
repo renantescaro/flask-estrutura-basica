@@ -3,6 +3,7 @@ from sqlmodel import SQLModel, Session, create_engine, select
 from main.utils.enums.dot_env import DotEnvEnum
 from main.utils.settings import Settings
 from .person_model import Person
+from .person_addrees_model import PersonAddrees
 
 engine = create_engine(
     url=Settings.get(
@@ -17,17 +18,18 @@ class Database:
     def __init__(self) -> None:
         self._result = Any
 
-    def first(self) -> Any:
-        return self._result.first()
 
-    def all(self) -> Any:
-        return self._result.all()
+    def get_one(self, statement):
+        with Session(engine) as session:
+            return session.exec(statement).first()
+    
+    
+    def get_all(self, statement):
+        with Session(engine) as session:
+            return session.exec(statement).all()    
 
-    def run_query(self, statement):
-        self._result = Session(engine).exec(statement)
-        return self
 
-    def run_insert(self, object_model: Any):
+    def save(self, object_model: Any):
         with Session(engine) as session:
             session.add(object_model)
             session.commit()
