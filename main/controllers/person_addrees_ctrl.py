@@ -25,7 +25,7 @@ class PersonAddreesCtrl:
                     complement=data["complement"],
                     person_id=data["person_id"]
                 )
-                Database().run_insert(addrees)
+                Database().save(addrees)
                 return jsonify({})
 
         except Exception as e:

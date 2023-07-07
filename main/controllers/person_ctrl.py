@@ -15,9 +15,9 @@ class PersonCtrl:
     @bp.route("/person/<id>", methods=["GET"])
     def get_one_person(id):
         statement_person = select(Person).where(Person.id == id)
-        statement_person_addrees = select(PersonAddrees).where(PersonAddrees.person_id == Person.id)
-        person: Person = Database().run_query(statement_person).first()
-        person_addrees: PersonAddrees = Database().run_query(statement_person_addrees).first()
+        statement_person_addrees = select(PersonAddrees).where(PersonAddrees.person_id == id)
+        person: Person = Database().get_one(statement_person)
+        person_addrees: PersonAddrees = Database().get_one(statement_person_addrees)
         if person is not None and person_addrees is not None:
             return jsonify(
                 {
@@ -36,11 +36,12 @@ class PersonCtrl:
                     
                 }
             )
-        else:
+        if person is not None:
             return jsonify(
                 {
                     "name": person.name,
                     "gender": person.gender.value if person.gender else "",
+                    "birth_Date": person.birth_date,
                 }
             )
     
@@ -49,7 +50,7 @@ class PersonCtrl:
     @bp.route("/person", methods=["GET"])
     def get_person():
         statement = select(Person)
-        persons = Database().run_query(statement).all()
+        persons = Database().get_all(statement)
 
         return jsonify(
             [
@@ -73,8 +74,30 @@ class PersonCtrl:
                     gender=data["gender"],
                     birth_date=data["birth_date"],
                 )
-                Database().run_insert(person)
+                Database().save(person)
                 return jsonify({})
+
+        except Exception as e:
+            print(e)
+
+        return abort(400)
+    
+
+    @bp.route("/person/<id>", methods=["PUT"])
+    def update_person(id):
+        statement_person = select(Person).where(Person.id == id)
+        person: Person = Database().get_one(statement_person)
+        try:
+            print(request.json)
+            if data := request.json:
+                person.name = data["name"]
+                person.pronoun = data["pronoun"]
+                person.weight = data["weight"]
+                person.gender = data["gender"]
+                person.birth_date = data["birth_date"]
+             
+                Database().save(person)
+                return jsonify({"message": "Alterado com Sucesso"})
 
         except Exception as e:
             print(e)
