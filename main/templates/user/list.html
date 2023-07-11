@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+</head>
+
+<body>
+    {% include 'components/nav.html' %}
+
+    <div id="dvData" style="display: none;">
+        {{ data }}
+    </div>
+
+    <br>
+    <div>
+        <a class="btn btn-primary" href="/user/new">New User</a>
+    </div>
+
+    <div style="margin-left:10px; padding:0px; width:98%">
+        <div id="tblContent"></div>
+    </div>
+
+    <script>
+        let altura = window.screen.height - 300
+
+        var table = new Tabulator("#tblContent", {
+            layout: "fitColumns",
+            pagination: "local",
+            height: altura,
+            movableColumns: true,
+            data: (JSON.parse(document.getElementById('dvData').textContent)),
+            columns: [
+                {
+                    title: "Id", field: "id", width: 120, headerFilter: "input",
+                    bottomCalc: "count", bottomCalcFormatter: "plaintext",
+                    bottomCalcFormatterParams: function (cell) {
+                        cell._cell.value = 'Total ' + cell._cell.value
+                    }
+                },
+                { title: "Name", field: "username", width: 300, headerFilter: "input" },
+                { title: "Email", field: "email", width: 300, headerFilter: "input" },
+                {
+                    title: "", field: "", width: 115,
+                    formatter: function (cell, formatterParams, onRendered) {
+                        let id = cell.getRow().getData().id
+                        let a = document.createElement('a')
+
+                        a.textContent = 'Edit'
+                        a.className = 'btn btn-warning btn-sm'
+                        a.href = '/user/edit/' + id
+                        return a
+                    }
+                },
+            ],
+        })
+    </script>
+</body>
+
+</html>

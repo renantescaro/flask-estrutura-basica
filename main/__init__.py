@@ -1,7 +1,8 @@
-from flask import Flask
+from flask import Flask, session, redirect, url_for, request
+from sqlmodel import SQLModel
 from main.controllers import blueprints_ctrl
 from main.database.models.database import engine
-from sqlmodel import SQLModel
+from main.services.access_control_sv import AccessControlSv
 
 
 def create_app(test_config=None):
@@ -25,5 +26,7 @@ def create_app(test_config=None):
     # create database
     with app.app_context():
         SQLModel.metadata.create_all(engine)
+
+    AccessControlSv().check_access(app)
 
     return app

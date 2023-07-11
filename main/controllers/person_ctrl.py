@@ -14,7 +14,7 @@ class PersonCtrl:
     @bp.route("/person/<name>", methods=["GET"])
     def get_one_person(name):
         statement = select(Person).where(Person.name == name)
-        person: Person = Database().run_query(statement).first()
+        person: Person = Database().get_one(statement)
         if person is not None:
             return jsonify(
                 {
@@ -27,7 +27,7 @@ class PersonCtrl:
     @bp.route("/person", methods=["GET"])
     def get_person():
         statement = select(Person)
-        persons = Database().run_query(statement).all()
+        persons = Database().get_all(statement)
 
         return jsonify(
             [
@@ -51,7 +51,7 @@ class PersonCtrl:
                     gender=data["gender"],
                     birth_date=data["birth_date"],
                 )
-                Database().run_insert(person)
+                Database().save(person)
                 return jsonify({})
 
         except Exception as e:

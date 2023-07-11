@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit user</title>
+</head>
+
+<body>
+    {% include 'components/nav.html' %}
+
+    <div style="padding: 50px;">
+        <form action="/user/edit/{{data['id']}}" method="post">
+            <input name="name" type="hidden" value="{{data['id']}}">
+            <div class="mb-3">
+                <label for="inputName" class="form-label">Name</label>
+                <input name="username" type="text" class="form-control" value="{{data['username']}}">
+            </div>
+            <div class="mb-3">
+                <label for="inputEmail" class="form-label">Email address</label>
+                <input name="email" type="email" class="form-control" value="{{data['email']}}">
+            </div>
+            <div class="mb-3">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input name="password" type="password" class="form-control" value="{{data['password']}}">
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+
+        <form action="/user/delete/{{data['id']}}" method="post">
+            <button type="submit" class="btn btn-danger">Delete User</button>
+        </form>
+
+        <a class="btn btn-warning" href="/user">Cancel</a>
+    </div>
+
+</body>
+
+</html>

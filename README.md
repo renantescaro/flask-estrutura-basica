@@ -1,5 +1,8 @@
 # Estrutura básica Flask
 
+## TODO
+- Forget password
+- Logs
 
 ## Configurações ⚙️
 * arquivo .env
