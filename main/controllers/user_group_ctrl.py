@@ -1,9 +1,8 @@
 import json
 from typing import List
-from flask import Blueprint, request, render_template, redirect, url_for, session
+from flask import Blueprint, request, render_template, redirect, url_for
 from main.database.models.user_group_model import UserGroup
 from main.database.models.database import Database, select
-from main.services.access_control_sv import AccessControlSv
 
 bp = Blueprint(
     "user_group",
