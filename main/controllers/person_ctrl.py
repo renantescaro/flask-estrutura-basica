@@ -27,7 +27,7 @@ class PersonCtrl:
     @bp.route("/person", methods=["GET"])
     def get_person():
         statement = select(Person)
-        persons = Database().get_all(statement)
+        persons: List[Person] = Database().get_all(statement)
 
         return jsonify(
             [
