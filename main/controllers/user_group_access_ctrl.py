@@ -3,6 +3,7 @@ from typing import List
 from flask import Blueprint, request, render_template, redirect, url_for
 from main.database.models.user_group_access_model import UserGroupAccess
 from main.database.models.database import Database, select
+from main.database.models.user_group_model import UserGroup
 
 bp = Blueprint(
     "user_group_access",
@@ -28,7 +29,13 @@ class UserCtrl:
     @bp.route("/new", methods=["GET", "POST"])
     def new():
         if request.method == "GET":
-            return render_template("user_group_access/new.html")
+            user_groups:List[UserGroup] = Database().get_all(select(UserGroup))
+            user_groups_json = [item.to_json() for item in user_groups]
+
+            return render_template(
+                "user_group_access/new.html",
+                user_groups=user_groups_json,
+            )
 
         user_group_access = UserGroupAccess(
             id_group=request.form.get("id_group"),
@@ -47,12 +54,15 @@ class UserCtrl:
         user_group_access: UserGroupAccess = Database().get_one(statement)
 
         if request.method == "GET":
+            user_groups:List[UserGroup] = Database().get_all(select(UserGroup))
+            user_groups_json = [item.to_json() for item in user_groups]
+
             return render_template(
                 "user_group_access/edit.html",
                 data=user_group_access.to_json(),
+                user_groups=user_groups_json,
             )
 
-        user_group_access.id_group = int(request.form.get("id_group"))
         user_group_access.route = request.form.get("route")
         user_group_access.can_create = bool(request.form.get("can_create", False))
         user_group_access.can_read = bool(request.form.get("can_read", False))

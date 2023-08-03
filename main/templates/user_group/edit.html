@@ -19,7 +19,7 @@
                 </div>
                 <div class=" col-mb-6 col-sm-12 form-check" style="margin-top: 38px;">
                     <label class="form-check-label">Is Admin</label>
-                    <input name="is_admin" type="checkbox" value={{data['is_admin']}}
+                    <input name="is_admin" type="checkbox" value="{{data['is_admin']}}"
                         class="form-check-input" {% if data['is_admin']==True %} checked {% endif %} />
                 </div>
             </div>
@@ -27,12 +27,12 @@
 
             <div>
                 <button type="submit" class="btn btn-primary">Save</button>
-                <a class="btn btn-warning" href="/user">Cancel</a>
+                <a class="btn btn-warning" href="/user/group">Cancel</a>
             </div>
         </form>
 
         <div>
-            <form action="/user/delete/{{data['id']}}" method="post">
+            <form action="/user/group/delete/{{data['id']}}" method="post">
                 <button type="submit" class="btn btn-danger">Delete</button>
             </form>
         </div>

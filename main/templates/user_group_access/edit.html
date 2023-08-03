@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User Group Access</title>
+</head>
+
+<body>
+    {% include 'components/nav.html' %}
+
+    <div style="padding: 50px;">
+        <form action="/user/group/access/edit/{{data['id']}}" method="post">
+            <div class="row">
+                <div class="col-mb-12 col-sm-4">
+                    <label class="form-label">Group</label>
+                    <select name="id_group" class="form-select" disabled
+                        aria-label="Default select example" value="{{data['id_group']}}"
+                    >
+                        <option selected>Open this select menu</option>
+                        {% for group in user_groups %}
+                            <option value="{{group['id']}}"
+                                {% if group['id'] == data['id'] %} selected {% endif %}
+                            >
+                                {{group['name']}}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-mb-12 col-sm-8">
+                    <label class="form-label">Route</label>
+                    <input name="route" type="text"
+                        class="form-control" value="{{data['route']}}"
+                    >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-mb-12 col-sm-2 form-check" style="margin-top: 38px;">
+                    <label class="form-check-label">Can Create</label>
+                    <input name="can_create" type="checkbox"
+                        class="form-check-input" value="{{data['can_create']}}"
+                        {% if data['can_create']==True %} checked {% endif %}
+                    >
+                </div>
+                <div class="col-mb-12 col-sm-2 form-check" style="margin-top: 38px;">
+                    <label class="form-check-label">Can Read</label>
+                    <input name="can_read" type="checkbox"
+                        class="form-check-input" value="{{data['can_read']}}"
+                        {% if data['can_read']==True %} checked {% endif %}
+                    >
+                </div>
+                <div class="col-mb-12 col-sm-2 form-check" style="margin-top: 38px;">
+                    <label class="form-check-label">Can Edit</label>
+                    <input name="can_edit" type="checkbox"
+                        class="form-check-input" value="{{data['can_edit']}}"
+                        {% if data['can_edit']==True %} checked {% endif %}
+                    >
+                </div>
+                <div class="col-mb-12 col-sm-2 form-check" style="margin-top: 38px;">
+                    <label class="form-check-label">Can Delete</label>
+                    <input name="can_delete" type="checkbox"
+                        class="form-check-input" value="{{data['can_delete']}}"
+                        {% if data['can_delete']==True %} checked {% endif %}
+                    >
+                </div>
+            </div>
+            <br>
+
+            <div>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a class="btn btn-warning" href="/user/group/access">Cancel</a>
+            </div>
+        </form>
+
+        <div>
+            <form action="/user/group/access/delete/{{data['id']}}" method="post">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>
