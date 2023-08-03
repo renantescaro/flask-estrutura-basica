@@ -3,6 +3,7 @@ from sqlmodel import SQLModel
 from main.controllers import blueprints_ctrl
 from main.database.models.database import engine
 from main.services.access_control_sv import AccessControlSv
+from main.services.access_routes_sv import AccessRouteSv
 
 
 app = Flask(
@@ -25,5 +26,7 @@ for bp in blueprints_ctrl:
 # create database
 with app.app_context():
     SQLModel.metadata.create_all(engine)
+
+AccessRouteSv().register_routes(app)
 
 AccessControlSv().check_access(app)

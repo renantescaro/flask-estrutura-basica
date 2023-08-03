@@ -8,14 +8,16 @@ class AccessControlSv:
     def check_access(self, app: Flask):
         @app.before_request
         def auth():
-            print(request.endpoint)
             if "user" not in session and request.endpoint not in [
                 "login.login",
                 "static",
             ]:
                 return redirect(url_for("login.login"))
 
+            # TODO: check endpoint request permission
+
     def login(self, username: str, password: str) -> bool:
+        # TODO: remove
         if username == "admin" and password == "abc123":
             self._set_user_session(User(id=0, username=username, password=""))
             return True
