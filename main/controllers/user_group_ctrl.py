@@ -31,7 +31,7 @@ class UserCtrl:
             return render_template("user_group/new.html")
 
         name = request.form.get("name")
-        is_admin = request.form.get("isAdmin")
+        is_admin = request.form.get("isAdmin", False)
 
         # TODO: apenas usuário adm pode criar grupo adm
 
