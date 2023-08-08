@@ -15,16 +15,21 @@
             <div class="row">
                 <div class="col-mb-12 col-sm-4">
                     <label class="form-label">Group</label>
-                    <select name="id_group" class="form-select" aria-label="Default select example">
+                    <select name="id_group" class="form-select" aria-label="Default select Group">
                         <option selected>Open this select menu</option>
                         {% for group in user_groups %}
                             <option value="{{group['id']}}">{{group['name']}}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-mb-12 col-sm-8">
+                <div class="col-mb-12 col-sm-4">
                     <label class="form-label">Route</label>
-                    <input name="route" type="text" class="form-control">
+                    <select name="route" class="form-select" aria-label="Default select Route">
+                        <option selected>Open this select menu</option>
+                        {% for route in routes %}
+                            <option value="{{route['id']}}">{{route['name']}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
             <div class="row">
@@ -46,7 +51,8 @@
                 </div>
             </div>
             <br>
-            <button type="submit" class="btn btn-primary">Save new User Group</button>
+            <button type="submit" class="btn btn-primary">Save new User Group Access</button>
+            <a class="btn btn-warning" href="/user/group/access">Cancel</a>
         </form>
     </div>
 </body>
