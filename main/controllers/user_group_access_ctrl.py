@@ -3,7 +3,9 @@ from typing import List
 from flask import Blueprint, request, render_template, redirect, url_for
 from main.database.models.user_group_access_model import UserGroupAccess
 from main.database.models.database import Database, select
-from main.database.models.user_group_model import UserGroup
+from main.database.repository.routes_repository import RoutesRepository
+from main.database.repository.user_group_repository import UserGroupRepository
+from main.database.repository.user_group_access_repository import UserGroupAccessRepository
 
 bp = Blueprint(
     "user_group_access",
@@ -16,11 +18,7 @@ bp = Blueprint(
 class UserCtrl:
     @bp.route("/")
     def list():
-        statement = select(UserGroupAccess)
-        user_group_access: List[UserGroupAccess] = Database().get_all(statement)
-
-        data = [item.to_json() for item in user_group_access]
-
+        data = UserGroupAccessRepository.get_all()
         return render_template(
             "user_group_access/list.html",
             data=json.dumps(data),
@@ -29,12 +27,10 @@ class UserCtrl:
     @bp.route("/new", methods=["GET", "POST"])
     def new():
         if request.method == "GET":
-            user_groups:List[UserGroup] = Database().get_all(select(UserGroup))
-            user_groups_json = [item.to_json() for item in user_groups]
-
             return render_template(
                 "user_group_access/new.html",
-                user_groups=user_groups_json,
+                user_groups=UserGroupRepository.get_all(),
+                routes=RoutesRepository.get_all()
             )
 
         user_group_access = UserGroupAccess(
@@ -48,19 +44,16 @@ class UserCtrl:
         Database().save(user_group_access)
         return redirect(url_for("user_group_access.list"))
 
+    @staticmethod
     @bp.route("/edit/<id>", methods=["GET", "POST"])
     def edit(id):
-        statement = select(UserGroupAccess).where(UserGroupAccess.id == id)
-        user_group_access: UserGroupAccess = Database().get_one(statement)
+        user_group_access = UserGroupAccessRepository.get_by_id(int(id))
 
         if request.method == "GET":
-            user_groups:List[UserGroup] = Database().get_all(select(UserGroup))
-            user_groups_json = [item.to_json() for item in user_groups]
-
             return render_template(
                 "user_group_access/edit.html",
                 data=user_group_access.to_json(),
-                user_groups=user_groups_json,
+                user_groups=UserGroupRepository.get_all(),
             )
 
         user_group_access.route = request.form.get("route")
@@ -72,10 +65,10 @@ class UserCtrl:
         Database().save(user_group_access)
         return redirect(url_for("user_group_access.list"))
 
+    @staticmethod
     @bp.route("/delete/<id>", methods=["POST"])
     def delete(id):
-        statement = select(UserGroupAccess).where(UserGroupAccess.id == id)
-        user: UserGroupAccess = Database().get_one(statement)
+        user = UserGroupAccessRepository.get_by_id(int(id))
 
         print("delete: ")
         print(user)
