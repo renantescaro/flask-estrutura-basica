@@ -1,5 +1,6 @@
 from typing import Optional
 from sqlmodel import Field, SQLModel
+from main.database.models.user_group_model import UserGroup
 
 
 class User(SQLModel, table=True):
@@ -7,6 +8,7 @@ class User(SQLModel, table=True):
     username: str
     password: str
     email: Optional[str] = ""
+    id_user_group: int = Field(foreign_key=UserGroup.id)
 
     def to_json(self):
         return {

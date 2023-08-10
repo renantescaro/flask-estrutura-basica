@@ -5,7 +5,9 @@ from main.database.models.user_group_access_model import UserGroupAccess
 from main.database.models.database import Database, select
 from main.database.repository.routes_repository import RoutesRepository
 from main.database.repository.user_group_repository import UserGroupRepository
-from main.database.repository.user_group_access_repository import UserGroupAccessRepository
+from main.database.repository.user_group_access_repository import (
+    UserGroupAccessRepository,
+)
 
 bp = Blueprint(
     "user_group_access",
@@ -30,16 +32,12 @@ class UserCtrl:
             return render_template(
                 "user_group_access/new.html",
                 user_groups=UserGroupRepository.get_all(),
-                routes=RoutesRepository.get_all()
+                routes=RoutesRepository.get_all(),
             )
 
         user_group_access = UserGroupAccess(
-            id_group=request.form.get("id_group"),
-            route=request.form.get("route"),
-            can_create=bool(request.form.get("can_create", False)),
-            can_read=bool(request.form.get("can_read", False)),
-            can_edit=bool(request.form.get("can_edit", False)),
-            can_delete=bool(request.form.get("can_delete", False)),
+            id_group=int(request.form.get("id_group")),
+            id_route=int(request.form.get("id_route")),
         )
         Database().save(user_group_access)
         return redirect(url_for("user_group_access.list"))
@@ -56,11 +54,7 @@ class UserCtrl:
                 user_groups=UserGroupRepository.get_all(),
             )
 
-        user_group_access.route = request.form.get("route")
-        user_group_access.can_create = bool(request.form.get("can_create", False))
-        user_group_access.can_read = bool(request.form.get("can_read", False))
-        user_group_access.can_edit = bool(request.form.get("can_edit", False))
-        user_group_access.can_delete = bool(request.form.get("can_delete", False))
+        user_group_access.id_route = int(request.form.get("id_route"))
 
         Database().save(user_group_access)
         return redirect(url_for("user_group_access.list"))

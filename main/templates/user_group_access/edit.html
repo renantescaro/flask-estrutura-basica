@@ -30,38 +30,8 @@
                 </div>
                 <div class="col-mb-12 col-sm-8">
                     <label class="form-label">Route</label>
-                    <input name="route" type="text"
-                        class="form-control" value="{{data['route']}}"
-                    >
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-mb-12 col-sm-2 form-check" style="margin-top: 38px;">
-                    <label class="form-check-label">Can Create</label>
-                    <input name="can_create" type="checkbox"
-                        class="form-check-input" value="{{data['can_create']}}"
-                        {% if data['can_create']==True %} checked {% endif %}
-                    >
-                </div>
-                <div class="col-mb-12 col-sm-2 form-check" style="margin-top: 38px;">
-                    <label class="form-check-label">Can Read</label>
-                    <input name="can_read" type="checkbox"
-                        class="form-check-input" value="{{data['can_read']}}"
-                        {% if data['can_read']==True %} checked {% endif %}
-                    >
-                </div>
-                <div class="col-mb-12 col-sm-2 form-check" style="margin-top: 38px;">
-                    <label class="form-check-label">Can Edit</label>
-                    <input name="can_edit" type="checkbox"
-                        class="form-check-input" value="{{data['can_edit']}}"
-                        {% if data['can_edit']==True %} checked {% endif %}
-                    >
-                </div>
-                <div class="col-mb-12 col-sm-2 form-check" style="margin-top: 38px;">
-                    <label class="form-check-label">Can Delete</label>
-                    <input name="can_delete" type="checkbox"
-                        class="form-check-input" value="{{data['can_delete']}}"
-                        {% if data['can_delete']==True %} checked {% endif %}
+                    <input name="id_route" type="text"
+                        class="form-control" value="{{data['id_route']}}"
                     >
                 </div>
             </div>

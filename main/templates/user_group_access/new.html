@@ -24,30 +24,12 @@
                 </div>
                 <div class="col-mb-12 col-sm-4">
                     <label class="form-label">Route</label>
-                    <select name="route" class="form-select" aria-label="Default select Route">
+                    <select name="id_route" class="form-select" aria-label="Default select Route">
                         <option selected>Open this select menu</option>
                         {% for route in routes %}
-                            <option value="{{route['id']}}">{{route['name']}}</option>
+                            <option value="{{route['id']}}">{{route['method']}} - {{route['name']}}</option>
                         {% endfor %}
                     </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-mb-12 col-sm-2 form-check" style="margin-top: 38px;">
-                    <label class="form-check-label">Can Create</label>
-                    <input name="can_create" type="checkbox" class="form-check-input">
-                </div>
-                <div class="col-mb-12 col-sm-2 form-check" style="margin-top: 38px;">
-                    <label class="form-check-label">Can Read</label>
-                    <input name="can_read" type="checkbox" class="form-check-input">
-                </div>
-                <div class="col-mb-12 col-sm-2 form-check" style="margin-top: 38px;">
-                    <label class="form-check-label">Can Edit</label>
-                    <input name="can_edit" type="checkbox" class="form-check-input">
-                </div>
-                <div class="col-mb-12 col-sm-2 form-check" style="margin-top: 38px;">
-                    <label class="form-check-label">Can Delete</label>
-                    <input name="can_delete" type="checkbox" class="form-check-input">
                 </div>
             </div>
             <br>

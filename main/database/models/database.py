@@ -2,8 +2,6 @@ from typing import Any, List
 from sqlmodel import SQLModel, Session, create_engine, select
 from main.utils.enums.dot_env import DotEnvEnum
 from main.utils.settings import Settings
-from .person_model import Person
-from .user_model import User
 
 engine = create_engine(
     url=Settings.get(

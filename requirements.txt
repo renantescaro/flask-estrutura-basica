@@ -1,6 +1,6 @@
-flask==2.2.2
+flask==2.3.2
 waitress==2.1.2
-python-dotenv==0.21.0
+python-dotenv==1.0.0
 sqlmodel==0.0.8
 mysqlclient==2.2.0
 bcrypt==4.0.1
