@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Api Key</title>
+</head>
+
+<body>
+    {% include 'components/nav.html' %}
+
+    <div style="padding: 50px;">
+        <form action="/apikeys/edit/{{data['id']}}" method="post">
+            <input name="id" type="hidden" value="{{data['id']}}">
+            <div class="row">
+                <div class="col-mb-4 col-lg-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input name="name" type="text" class="form-control" value="{{data['name']}}">
+                </div>
+                <div class="col-mb-4 col-lg-3 form-check" style="margin-top: 38px;">
+                    <label for="active" class="form-check-label">Active</label>
+                    <input name="active" type="checkbox" class="form-check-input"
+                        {% if data['active']==True %} checked {% endif %}
+                    >
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+
+        <form action="/user/delete/{{data['id']}}" method="post">
+            <button type="submit" class="btn btn-danger">Delete User</button>
+        </form>
+
+        <a class="btn btn-warning" href="/user">Cancel</a>
+    </div>
+
+</body>
+
+</html>

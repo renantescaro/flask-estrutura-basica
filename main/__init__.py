@@ -1,5 +1,6 @@
 from flask import Flask
 from sqlmodel import SQLModel
+from main.api import blueprints_api
 from main.controllers import blueprints_ctrl
 from main.database.models.database import engine
 from main.services.access_control_sv import AccessControlSv
@@ -22,6 +23,9 @@ app.config.from_mapping(
 # add routes
 for bp in blueprints_ctrl:
     app.register_blueprint(bp)
+
+for bp_api in blueprints_api:
+    app.register_blueprint(bp_api)
 
 # create database
 with app.app_context():

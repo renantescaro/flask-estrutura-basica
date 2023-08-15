@@ -25,6 +25,19 @@
                 <label for="inputPassword" class="form-label">Password</label>
                 <input name="password" type="password" class="form-control" value="{{data['password']}}">
             </div>
+            <div class="col-mb-12 col-sm-4">
+                <label class="form-label">User Group</label>
+                <select name="id_user_group" class="form-select" aria-label="Default select User Group">
+                    <option selected>Open this select menu</option>
+                    {% for user_group in user_groups %}
+                        <option value="{{user_group['id']}}"
+                            {% if user_group['id'] == data['id_user_group'] %} selected {% endif %}
+                        >
+                            {{user_group['name']}}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
 
             <div>
                 <button type="submit" class="btn btn-primary">Save</button>

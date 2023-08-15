@@ -16,4 +16,5 @@ class User(SQLModel, table=True):
             "username": self.username,
             "email": self.email,
             "password": self.password,
+            "id_user_group": self.id_user_group,
         }
