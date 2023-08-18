@@ -1,6 +1,6 @@
 import json
-from typing import List
-from flask import Blueprint, request, render_template, redirect, url_for
+from typing import Dict, List
+from flask import Blueprint, jsonify, request, render_template, redirect, url_for
 from main.database.models.user_group_access_model import UserGroupAccess
 from main.database.models.database import Database, select
 from main.database.repository.routes_repository import RoutesRepository
@@ -18,12 +18,33 @@ bp = Blueprint(
 
 
 class UserCtrl:
+    @staticmethod
+    @bp.route("/data/<id>")
+    def get_route(id: int):
+        all_routes = RoutesRepository.get_all()
+        used_routes = UserGroupAccessRepository.get_by_id_group(id)
+
+        final_data = []
+        for route in all_routes:
+            use_route = False
+            if used_routes:
+                for used_route in used_routes:
+                    if used_route["id_route"] == route["id"]:
+                        use_route = True
+
+            final_data.append(
+                {"id": route["id"], "name": route["name"], "use_route": use_route}
+            )
+        return final_data
+
     @bp.route("/")
     def list():
         data = UserGroupAccessRepository.get_all()
         return render_template(
-            "user_group_access/list.html",
+            "user_group_access/new_page.html",
             data=json.dumps(data),
+            routes=RoutesRepository.get_all(),
+            user_groups=UserGroupRepository.get_all(),
         )
 
     @bp.route("/new", methods=["GET", "POST"])
@@ -54,10 +75,19 @@ class UserCtrl:
                 user_groups=UserGroupRepository.get_all(),
             )
 
-        user_group_access.id_route = int(request.form.get("id_route"))
+        status = bool(request.json.get("status", False))
+        if user_group_access and status is False:
+            Database().delete(user_group_access)
+            return "ok", 200
 
-        Database().save(user_group_access)
-        return redirect(url_for("user_group_access.list"))
+        if user_group_access is None and status is True:
+            user_group_access = UserGroupAccess(
+                id_group=int(request.json.get("idUserGroup")),
+                id_route=int(request.json.get("idRoute")),
+            )
+            Database().save(user_group_access)
+            return "ok", 200
+        return "ok", 400
 
     @staticmethod
     @bp.route("/delete/<id>", methods=["POST"])

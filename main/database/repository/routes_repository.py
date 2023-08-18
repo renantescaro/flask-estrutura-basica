@@ -7,5 +7,11 @@ class RoutesRepository:
     @staticmethod
     def get_all():
         statement = select(Routes)
-        user_group_access: List[Routes] = Database().get_all(statement)
-        return [item.to_json() for item in user_group_access]
+        routes: List[Routes] = Database().get_all(statement)
+        return [item.to_dict() for item in routes]
+
+    @staticmethod
+    def get_by_id(id: int):
+        statement = select(Routes).where(Routes.id == id)
+        route: Routes = Database().get_one(statement)
+        return route.to_dict()

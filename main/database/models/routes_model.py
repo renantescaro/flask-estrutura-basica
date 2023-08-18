@@ -7,7 +7,7 @@ class Routes(SQLModel, table=True):
     name: str
     method: str
 
-    def to_json(self):
+    def to_dict(self):
         return {
             "id": self.id,
             "name": self.name,
