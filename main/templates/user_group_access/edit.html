@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User Group Access</title>
+</head>
+
+<body>
+    {% include 'components/nav.html' %}
+
+    <div style="padding: 50px;">
+        <form action="/user/group/access/edit/{{data['id']}}" method="post">
+            <div class="row">
+                <div class="col-mb-12 col-sm-4">
+                    <label class="form-label">Group</label>
+                    <select name="id_group" class="form-select" disabled
+                        aria-label="Default select example" value="{{data['id_group']}}"
+                    >
+                        <option selected>Open this select menu</option>
+                        {% for group in user_groups %}
+                            <option value="{{group['id']}}"
+                                {% if group['id'] == data['id'] %} selected {% endif %}
+                            >
+                                {{group['name']}}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-mb-12 col-sm-8">
+                    <label class="form-label">Route</label>
+                    <input name="id_route" type="text"
+                        class="form-control" value="{{data['id_route']}}"
+                    >
+                </div>
+            </div>
+            <br>
+
+            <div>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a class="btn btn-warning" href="/user/group/access">Cancel</a>
+            </div>
+        </form>
+
+        <div>
+            <form action="/user/group/access/delete/{{data['id']}}" method="post">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

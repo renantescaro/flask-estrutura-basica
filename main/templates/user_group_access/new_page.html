@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Group Access</title>
+</head>
+
+<body>
+    {% include 'components/nav.html' %}
+    <br>
+
+    <div class="row">
+        <div class="col-mb-12 col-sm-2">
+            <select name="id_user_group" id="id_user_group" class="form-select"
+                aria-label="Default select Group" onchange="changeSelectedRoute()"
+            >
+            <option selected>Open this select menu</option>
+            {% for user_group in user_groups %}
+                <option value="{{user_group['id']}}">{{user_group['name']}}</option>
+            {% endfor %}
+            </select>
+        </div>
+    </div>
+    <br>
+
+    <div style="margin-left:10px; padding:0px; width:98%">
+        <div id="tblContent"></div>
+    </div>
+
+    <script>
+        function saveChanges(idRoute, status){
+            let idUserGroup = document.getElementById('id_user_group').value
+            let body = JSON.stringify({
+                "status":status,
+                "idRoute":idRoute,
+                "idUserGroup":idUserGroup
+            })
+
+            var post = new XMLHttpRequest()
+            post.open("POST", "edit/"+idRoute, true)
+            post.setRequestHeader("Content-Type", "application/json");
+
+            post.send(body)
+            post.onreadystatechange = function(){
+                if (post.readyState == 4 && post.status == 200){
+                    console.log(post.responseText)
+                }
+            }
+        }
+
+        function changeSelectedRoute(){
+            let idUserGroup = document.getElementById('id_user_group').value
+            var get = new XMLHttpRequest()
+
+            get.open("GET", "data/"+idUserGroup, true)
+            get.send()
+            get.onreadystatechange = function(){
+                if (get.readyState == 4 && get.status == 200){
+                    loadTable(get.responseText)
+                }
+            }
+        }
+
+        function loadTable(data){
+            let height = window.screen.height - 300
+            var table = new Tabulator("#tblContent", {
+                layout: "fitColumns",
+                pagination: "local",
+                height: height,
+                movableColumns: true,
+                data: (JSON.parse(data)),
+                columns: [
+                    {
+                        title:"Active", field:"use_route", width: 120,
+                        hozAlign:"center", editor:true, formatter:"tickCross",
+                        cellEdited:function(cell){
+                            let status = cell.getRow().getData().use_route
+                            let id = cell.getRow().getData().id
+                            saveChanges(id, status)
+                        }
+                    },
+                    {
+                        title: "Id", field: "id", width: 120, headerFilter: "input",
+                        bottomCalc: "count", bottomCalcFormatter: "plaintext",
+                        bottomCalcFormatterParams: function (cell) {
+                            cell._cell.value = "Count " + cell._cell.value
+                        }
+                    },
+                    { title: "Route", field: "name", width: 300, headerFilter: "input" },
+                ],
+            })
+        }
+    </script>
+</body>
+
+</html>

@@ -1,21 +1,61 @@
+from typing import Dict
 import bcrypt
-from flask import Flask, session, request, redirect, url_for, request
+import base64
+from flask import Flask, session, request, redirect, url_for, abort
+from main.database.models.api_keys_model import ApiKeys
 from main.database.models.database import *
 from main.database.models.user_model import User
 
 
 class AccessControlSv:
+    @staticmethod
+    def _front_auth(endpoint):
+        # TODO: check endpoint request permission
+        if "user" not in session and endpoint not in [
+            "login.login",
+            "static",
+        ]:
+            raise Exception
+
+    @staticmethod
+    def _api_auth(headers: Dict):
+        authorization = headers.get("Authorization")
+        kind, key_encoded = str(authorization).split(" ")
+
+        if kind.lower() != "basic":
+            raise Exception
+
+        clean_authentication = base64.b64decode(key_encoded).decode("ascii")
+        user, key = clean_authentication.split(":")
+
+        statement = select(ApiKeys).where(ApiKeys.key == key)
+        api_key: ApiKeys = Database().get_one(statement)
+
+        if not api_key or api_key.name != user:
+            raise Exception
+
     def check_access(self, app: Flask):
         @app.before_request
         def auth():
-            print(request.endpoint)
-            if "user" not in session and request.endpoint not in [
-                "login.login",
-                "static",
-            ]:
-                return redirect(url_for("login.login"))
+            paths = str(request.path).split("/")
+
+            # api access
+            if paths[1] == "api":
+                try:
+                    self._api_auth(dict(request.headers))
+                except Exception as e:
+                    print(e)
+                    return abort(401)
+
+            # web browser access
+            else:
+                try:
+                    self._front_auth(request.endpoint)
+                except Exception:
+                    return redirect(url_for("login.login"))
 
     def login(self, username: str, password: str) -> bool:
+        # TODO: remove
         if username == "admin" and password == "abc123":
             self._set_user_session(User(id=0, username=username, password=""))
             return True

@@ -1,7 +1,6 @@
 from typing import Optional
 from sqlmodel import Field, SQLModel
-
-# from pydantic.main import BaseModel
+from main.database.models.user_group_model import UserGroup
 
 
 class User(SQLModel, table=True):
@@ -9,6 +8,7 @@ class User(SQLModel, table=True):
     username: str
     password: str
     email: Optional[str] = ""
+    id_user_group: int = Field(foreign_key=UserGroup.id)
 
     def to_json(self):
         return {
@@ -16,4 +16,5 @@ class User(SQLModel, table=True):
             "username": self.username,
             "email": self.email,
             "password": self.password,
+            "id_user_group": self.id_user_group,
         }
